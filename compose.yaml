@@ -1,0 +1,27 @@
+services:
+  mysql:
+    image: 'mysql:latest'
+    restart: always
+    environment:
+      - 'MYSQL_DATABASE=dbwaltec'
+      - 'MYSQL_ROOT_PASSWORD=12345678'
+    ports:
+      - '3306:3306'
+    networks:
+      - 'mysql-phpmyadmin'
+
+  phpmyadmin:
+    depends_on:
+      - 'mysql'
+    image: 'phpmyadmin'
+    restart: always
+    ports:
+      - '8090:80'
+    environment:
+      PMA_HOST: 'mysql'
+      MYSQL_ROOT_PASSWORD: '12345678'
+    networks:
+      - 'mysql-phpmyadmin'
+
+networks:
+  mysql-phpmyadmin:
