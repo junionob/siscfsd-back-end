@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.fab.sisrecruta.entities.MembroCoordenacaoEntity;
-import org.fab.sisrecruta.projections.enums.TipoFuncao;
 
 @Data
 @AllArgsConstructor
@@ -13,12 +12,12 @@ public class MembroCoordenacaoDTO {
     Long id;
     String nmGuerra;
     String sgPostoGraducao;
-    TipoFuncao funcao;
+    String funcao;
 
     public MembroCoordenacaoDTO(MembroCoordenacaoEntity entity){
         id = entity.getId();
         nmGuerra = entity.getNmGuerra();
         sgPostoGraducao = entity.getSgPostoGraducao();
-        funcao = entity.getFuncao();
+        funcao = entity.getFuncao().getDescricao();
     }
 }

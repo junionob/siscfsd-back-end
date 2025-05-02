@@ -7,6 +7,7 @@ import org.fab.sisrecruta.projections.dtos.DisciplinaResponsavelDTO;
 import org.fab.sisrecruta.projections.enums.TipoFuncao;
 import org.fab.sisrecruta.repositories.DisciplinaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,5 +57,13 @@ public class DisciplinaService {
 
         disciplinaResponsavelService.atribuirInstrutorToDisciplina(dto);
 
+    }
+
+    @Transactional
+    public void deleteDisciplinaById(Long id){
+        DisciplinaEntity disciplina = disciplinaRepository.findById(id)
+                        .orElseThrow(()-> new RuntimeException("DISCPLINA NÃO ENCONTRADA COM O ID: " + id));
+
+        disciplinaRepository.deleteById(disciplina.getId());
     }
 }

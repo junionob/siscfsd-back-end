@@ -7,10 +7,7 @@ import org.fab.sisrecruta.projections.enums.TipoFuncao;
 import org.fab.sisrecruta.servicies.DisciplinaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -38,5 +35,12 @@ public class DisciplinaController {
     @Operation(summary = "Atribuir instrutor da disciplina", description = "Seta um instrutor na disciplina")
     public void setInstrutorToDisciplina(Long idMembroCoordenacao, Long idDisciplina){
         disciplinaService.setInstrutorToDisciplina(idMembroCoordenacao, idDisciplina);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    @Operation(summary = "Deletar Matéria", description = "Deleta uma Disciplina")
+    public ResponseEntity deleteDisciplina(@PathVariable Long id){
+        disciplinaService.deleteDisciplinaById(id);
+        return ResponseEntity.ok().build();
     }
 }

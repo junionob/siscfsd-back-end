@@ -1,6 +1,8 @@
 package org.fab.sisrecruta.controllers;
 
+import org.fab.sisrecruta.entities.RecrutaEntity;
 import org.fab.sisrecruta.projections.dtos.RecrutaDTO;
+import org.fab.sisrecruta.projections.dtos.RelatorioRecrutaDTO;
 import org.fab.sisrecruta.servicies.RecrutaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +23,17 @@ public class RecrutaController {
     }
 
     @PostMapping
-    public ResponseEntity<RecrutaDTO> cadastrarRecruta(@RequestBody RecrutaDTO dto) {
+    public ResponseEntity<RecrutaDTO> cadastrarRecruta(@RequestBody RecrutaDTO dto) throws Exception {
        return ResponseEntity.ok(recrutaService.cadastrarRecruta(dto));
+    }
+
+    @GetMapping("/{id}/relatorio")
+    public RelatorioRecrutaDTO getRecrutaRelatorio(@PathVariable Long id) throws Exception {
+        return recrutaService.getRecutaRelatorio(id);
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<RecrutaDTO> getRecrutaById(@PathVariable Long id) throws Exception {
+        return ResponseEntity.ok(recrutaService.getRecrutaById(id));
     }
 }

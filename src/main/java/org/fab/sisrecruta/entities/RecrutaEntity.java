@@ -39,6 +39,7 @@ public class RecrutaEntity {
 
     @ManyToOne
     @NotNull
+    @JoinColumn(name = "ID_TURMA")
     private TurmaEntity turma;
 
     @OneToMany(mappedBy = "recruta", cascade = CascadeType.ALL,  orphanRemoval = true)
