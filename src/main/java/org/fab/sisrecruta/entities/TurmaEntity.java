@@ -36,11 +36,8 @@ public class TurmaEntity {
     @Column(name = "DT_FORMATURA")
     private LocalDate dtFormatura;
 
-    @OneToMany(mappedBy = "turma")
-    private List<RecrutaEntity> recrutas;
-
-    @Enumerated(EnumType.ORDINAL)
-    @JoinColumn(name = "ID_SITUACAO_TURMA")
+    @Enumerated(EnumType.STRING)
+    @JoinColumn(name = "SITUACAO_TURMA")
     private SituacaoTurma situacaoTurma;
 
 }

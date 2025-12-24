@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.fab.sisrecruta.entities.RecrutaEntity;
+import org.fab.sisrecruta.entities.TurmaEntity;
 
 import java.util.Collection;
 
@@ -11,11 +12,12 @@ import java.util.Collection;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TurmaResumeDTO {
-    String nome;
-    Long id;
 
-    public TurmaResumeDTO(RecrutaEntity entity){
-        this.nome = entity.getTurma().getNmTurma();
-        this.id = entity.getTurma().getIdTurma();
+    Long id;
+    String nome;
+
+    public TurmaResumeDTO(TurmaEntity entity){
+        this.nome = entity.getNmTurma();
+        this.id = entity.getIdTurma();
     }
 }

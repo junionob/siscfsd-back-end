@@ -15,11 +15,14 @@ import java.util.stream.Collectors;
 @Service
 public class TurmaService {
 
-    @Autowired
-    private TurmaRepository turmaRepository;
+    private final TurmaRepository turmaRepository;
+    private final RecrutaService recrutaService;
 
     @Autowired
-    RecrutaService recrutaService;
+    public TurmaService(TurmaRepository turmaRepository, RecrutaService recrutaService) {
+        this.turmaRepository = turmaRepository;
+        this.recrutaService = recrutaService;
+    }
 
     @Transactional
     public TurmaDTO createTurma(TurmaRecord record) {
@@ -43,13 +46,13 @@ public class TurmaService {
     @Transactional
     public TurmaDTO setGritoGuerra(Long idTurma, String txGritoGuerra) {
         TurmaEntity turmaEntity = turmaRepository.findById(idTurma)
-                .orElseThrow(() -> new RuntimeException("Turma não encontrada!")) ;
+                .orElseThrow(() -> new RuntimeException("Turma não encontrada!"));
 
-            turmaEntity.setTxGritoGuerra(txGritoGuerra);
+        turmaEntity.setTxGritoGuerra(txGritoGuerra);
 
-            turmaRepository.save(turmaEntity);
+        turmaRepository.save(turmaEntity);
 
-            return new TurmaDTO(turmaEntity);
+        return new TurmaDTO(turmaEntity);
     }
 
     @Transactional
@@ -61,18 +64,17 @@ public class TurmaService {
         if (allWithNrNumerica) {
             turma.setSituacaoTurma(SituacaoTurma.FECHADA);
             turmaRepository.save(turma);
-        }
-        else {
+        } else {
             throw new RuntimeException("Não foi possível finalizar o Turma!");
         }
         return new TurmaDTO(turma);
     }
 
     @Transactional
-    public void deleteTurmaAbertaById(Long id){
+    public void deleteTurmaAbertaById(Long id) {
         TurmaEntity turma = turmaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Turma não encontrada!"));
-        if(turma.getSituacaoTurma() == SituacaoTurma.ABERTA) turmaRepository.delete(turma);
+        if (turma.getSituacaoTurma() == SituacaoTurma.ABERTA) turmaRepository.delete(turma);
         else {
             throw new RuntimeException("Não foi possivel deletar a Turma!");
         }

@@ -4,5 +4,4 @@ public enum SituacaoTurma {
     ABERTA,
     FECHADA,
     FINALIZADA;
-
 }

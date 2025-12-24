@@ -9,18 +9,19 @@ import org.fab.sisrecruta.repositories.PunicaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 @Service
 public class PunicaoService {
 
-    @Autowired
-    private PunicaoRepository punicaoRepository;
+    private final PunicaoRepository punicaoRepository;
+    private final RecrutaService recrutaService;
+    private final MembroCoordenacaoService membroCoordenacaoService;
 
     @Autowired
-    private RecrutaService recrutaService;
-
-    @Autowired
-    MembroCoordenacaoService membroCoordenacaoService;
+    public PunicaoService(PunicaoRepository punicaoRepository, RecrutaService recrutaService, MembroCoordenacaoService membroCoordenacaoService) {
+        this.punicaoRepository = punicaoRepository;
+        this.recrutaService = recrutaService;
+        this.membroCoordenacaoService = membroCoordenacaoService;
+    }
 
     public PunicaoDTO createPunicao(PunicaoRecord record) throws Exception {
         RecrutaEntity recruta = recrutaService.findById(record.idRecuta());

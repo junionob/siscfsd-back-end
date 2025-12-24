@@ -21,29 +21,28 @@ import java.util.List;
 public class RecrutaEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_RECRUTA")
+    @Column(name = "ID_PESSOA")
+    @Basic
     private Long id;
 
-    @Column(name = "NM_NOME")
-    private String nmNome;
-
-    @Column(name = "NM_GUERRA")
-    private String nmGuerra;
+    @Column(name = "ID_TURMA")
+    @Basic
+    private Long idTurma;
 
     @Column(name = "NR_NUMERICA")
+    @Basic
     private Integer nrNumerica;
 
-    @Column(name = "DT_NASCIMENTO")
-    private LocalDate dtNascimento;
-
-    @ManyToOne
-    @NotNull
-    private TurmaEntity turma;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ID_PESSOA", referencedColumnName = "ID_PESSOA",  insertable = false, updatable = false)
+    private PessoaEntity pessoaByIdPessoa;
 
     @OneToMany(mappedBy = "recruta", cascade = CascadeType.ALL,  orphanRemoval = true)
     private List<PunicaoEntity> punicao;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_TURMA", referencedColumnName = "ID_TURMA", insertable = false, updatable = false)
+    private TurmaEntity turmaByIdTurma;
 
 
 }
