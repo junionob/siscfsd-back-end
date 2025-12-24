@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: sisrecruta
+  jpa:
+    hibernate.ddl-auto: update
+    show-sql: true
+    generate-ddl: true
+    properties:
+      hibernate:
+        format_sql: true
+  datasource:
+    url: jdbc:mysql://localhost:3306/dbwaltec?createDatabaseIfNotExist=true
+    username: root
+    password: 12345678
+    driver-class-name: com.mysql.cj.jdbc.Driver
+server:
+  port: 8083
+camunda:
+  client:
+    zeebe:
+      gateway-address: localhost:26500
+      plaintext: true
+
+#spring.datasource.password=FbiV\Y/w6T7T46G$K4(t
+
+
+## swagger-ui: http://localhost:8080/swagger-ui/index.html
+
+#4f06b60f-5098-45c9-848f-b64720e44023
