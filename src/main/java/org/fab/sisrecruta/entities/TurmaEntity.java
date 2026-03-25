@@ -27,9 +27,6 @@ public class TurmaEntity {
     @Column(name = "NM_TURMA")
     private String nmTurma;
 
-    @Column(name = "TX_GRITO_GUERRA", length = 1000)
-    private String txGritoGuerra;
-
     @Column(name = "DT_INCORPORACAO")
     private LocalDate dtIncorporacao;
 

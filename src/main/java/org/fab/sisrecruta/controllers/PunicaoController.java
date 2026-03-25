@@ -1,5 +1,6 @@
 package org.fab.sisrecruta.controllers;
 
+import lombok.RequiredArgsConstructor;
 import org.fab.sisrecruta.projections.dtos.PunicaoDTO;
 import org.fab.sisrecruta.projections.records.PunicaoRecord;
 import org.fab.sisrecruta.servicies.PunicaoService;
@@ -12,10 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("punicao")
+@RequiredArgsConstructor
 public class PunicaoController {
 
-    @Autowired
-    private PunicaoService punicaoService;
+    private final PunicaoService punicaoService;
 
     @PostMapping("criar-by-recruta")
     public ResponseEntity<PunicaoDTO> CriarPunicao(@RequestBody PunicaoRecord record) throws Exception {

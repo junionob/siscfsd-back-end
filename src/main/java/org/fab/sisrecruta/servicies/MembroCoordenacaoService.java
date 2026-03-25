@@ -1,11 +1,11 @@
 package org.fab.sisrecruta.servicies;
 
+import lombok.RequiredArgsConstructor;
 import org.fab.sisrecruta.entities.MembroCoordenacaoEntity;
 import org.fab.sisrecruta.projections.dtos.MembroCoordenacaoDTO;
 import org.fab.sisrecruta.projections.enums.TipoFuncao;
 import org.fab.sisrecruta.projections.records.MembroCoordenacaoRecord;
 import org.fab.sisrecruta.repositories.MembroCoordenacaoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,11 +14,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class MembroCoordenacaoService {
 
-    @Autowired
-    private MembroCoordenacaoRepository membroCoordenacaoRepository;
+    private final MembroCoordenacaoRepository membroCoordenacaoRepository;
 
+    @Transactional
     public MembroCoordenacaoDTO adicionarMembroCordenacao(MembroCoordenacaoRecord record, TipoFuncao funcao){
         MembroCoordenacaoEntity membroCoordenacao = MembroCoordenacaoEntity.builder()
                 .nmGuerra(record.nmGuerra().toUpperCase())

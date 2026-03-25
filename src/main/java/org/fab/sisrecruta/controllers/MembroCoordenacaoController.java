@@ -2,6 +2,7 @@ package org.fab.sisrecruta.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.fab.sisrecruta.entities.RecrutaEntity;
 import org.fab.sisrecruta.projections.dtos.MembroCoordenacaoDTO;
 import org.fab.sisrecruta.projections.enums.TipoFuncao;
@@ -19,10 +20,10 @@ import java.util.List;
 @RestController
 @RequestMapping("membro-coordenacao")
 @Tag(name = "Coordenação", description = "Gerenciamento dos membros da coordenação")
+@RequiredArgsConstructor
 public class MembroCoordenacaoController {
 
-    @Autowired
-    private MembroCoordenacaoService membroCoordenacaoService;
+    private final MembroCoordenacaoService membroCoordenacaoService;
 
     @PostMapping
     @Operation(summary = "Criar membro da coordenação", description = "Insere um novo membro a coordenação")

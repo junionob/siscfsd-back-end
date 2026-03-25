@@ -2,10 +2,9 @@ package org.fab.sisrecruta.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.fab.sisrecruta.entities.DisciplinaEntity;
-import org.fab.sisrecruta.projections.enums.TipoFuncao;
 import org.fab.sisrecruta.servicies.DisciplinaService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,10 +16,10 @@ import java.util.List;
 @RestController
 @RequestMapping("disciplina")
 @Tag(name = "Disciplina", description = "Gerenciamento das disciplinas do curso")
+@RequiredArgsConstructor
 public class DisciplinaController {
 
-    @Autowired
-    private DisciplinaService disciplinaService;
+    private final DisciplinaService disciplinaService;
 
     @PostMapping
     @Operation(summary = "Criar disciplina do curso", description = "Cria uma nova disciplina")

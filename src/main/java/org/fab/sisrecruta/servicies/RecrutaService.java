@@ -1,5 +1,7 @@
 package org.fab.sisrecruta.servicies;
 
+import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.fab.sisrecruta.entities.PessoaEntity;
 import org.fab.sisrecruta.entities.RecrutaEntity;
 import org.fab.sisrecruta.entities.TurmaEntity;
@@ -15,42 +17,41 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class RecrutaService {
 
     private final RecrutaRepository recrutaRepository;
     private final TurmaRepository turmaRepository;
     private final PessoaService pessoaService;
 
-    @Autowired
-    public RecrutaService(RecrutaRepository recrutaRepository, TurmaRepository turmaRepository, PessoaService pessoaService) {
-        this.recrutaRepository = recrutaRepository;
-        this.turmaRepository = turmaRepository;
-        this.pessoaService = pessoaService;
-    }
-
     public List<RecrutaDTO> findAll() {
         List<RecrutaEntity> recrutas = recrutaRepository.findAll();
         return recrutas.stream()
                 .map(RecrutaDTO::new)
                 .sorted(Comparator
-                        .comparing(RecrutaDTO::getNrNumerica,
-                                Comparator.nullsLast(Comparator.naturalOrder()))
+                        .comparing(RecrutaDTO::getNrNumerica, Comparator.nullsLast(Comparator.naturalOrder()))
                         .thenComparing(RecrutaDTO::getNmNome, Comparator.nullsLast(String::compareTo)))
                         .collect(Collectors.toList());
     }
 
     @Transactional
-    public void cadastrarRecruta(RecrutaDTO dto) {
+    public void create(RecrutaDTO dto) {
         TurmaEntity turma = turmaRepository.findById(dto.getTurmaResume().getId())
-                .orElseThrow(() -> new RuntimeException("Turma não encontrada"));
+                .orElseThrow(() -> new EntityNotFoundException("Turma não encontrada: " + dto.getTurmaResume().getNome()));
+
+        if (dto.getNmNome().isEmpty()) throw new IllegalArgumentException("Nome nao pode ser vazio");
+        if (dto.getNmGuerra().isEmpty()) throw new IllegalArgumentException("Nome de Guerra nao pode ser vazio");
+        if (dto.getDtNascimento() == null) throw new IllegalArgumentException("Data de Nascimento nao pode ser vazio");
+        if (dto.getSexo() == null) throw new IllegalArgumentException("Sexo não pode ser vazio");
 
         PessoaEntity pessoa = PessoaEntity.builder()
                 .nmNome(dto.getNmNome().toUpperCase())
                 .nmGuerra(dto.getNmGuerra().toUpperCase())
                 .dtNascimento(dto.getDtNascimento())
+                .sexo(dto.getSexo())
+                .nrCpf(dto.getNrCpf())
                 .build();
         pessoaService.cretePessoa(pessoa);
-
 
         RecrutaEntity recrutaEntity = RecrutaEntity.builder()
                 .id(pessoa.getId())
@@ -58,7 +59,6 @@ public class RecrutaService {
                 .idTurma(turma.getIdTurma())
                 .build();
         recrutaRepository.save(recrutaEntity);
-
     }
 
     @Transactional
@@ -81,5 +81,10 @@ public class RecrutaService {
     @Transactional(readOnly = true)
     public RecrutaEntity findById(Long id) throws Exception {
         return recrutaRepository.findById(id).orElseThrow(() -> new Exception("Recruta não encontrado com o id: " + id));
+    }
+
+    @Transactional(readOnly = true)
+    public Integer getAmountByIdTurma(Long IdTurma){
+        return recrutaRepository.findByIdTurma(IdTurma).size();
     }
 }

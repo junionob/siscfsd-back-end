@@ -1,6 +1,7 @@
 package org.fab.sisrecruta.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -20,19 +21,23 @@ public class PessoaEntity {
     @Basic
     Long id;
 
-    @Column(name = "NM_NOME", length = 50, nullable = false)
+    @Column(name = "NM_NOME", length = 150, nullable = false)
     @Basic
     String nmNome;
 
-    @Column(name = "NM_GUERRA")
+    @Column(name = "NM_GUERRA", length = 20, nullable = false)
     @Basic
     private String nmGuerra;
 
-    @Column(name = "NR_CPF")
+    @Column(name = "NR_CPF", unique = true, length = 11)
     @Basic
     private String nrCpf;
 
-    @Column(name = "DT_NASCIMENTO")
+    @Column(name = "DT_NASCIMENTO", nullable = false)
     @Basic
     private LocalDate dtNascimento;
+
+    @Column(name = "SG_SEXO", nullable = false, length = 1)
+    @Basic
+    private Character sexo;
 }

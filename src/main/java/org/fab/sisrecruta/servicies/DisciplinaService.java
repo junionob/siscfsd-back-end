@@ -1,5 +1,7 @@
 package org.fab.sisrecruta.servicies;
 
+import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.fab.sisrecruta.entities.DisciplinaEntity;
 import org.fab.sisrecruta.entities.DisciplinaResponsavelEntity;
 import org.fab.sisrecruta.entities.MembroCoordenacaoEntity;
@@ -13,16 +15,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class DisciplinaService {
 
-    @Autowired
-    private DisciplinaRepository disciplinaRepository;
-
-    @Autowired
-    private MembroCoordenacaoService membroCoordenacaoService;
-
-    @Autowired
-    private DisciplinaResponsavelService disciplinaResponsavelService;
+    private final DisciplinaRepository disciplinaRepository;
+    private final MembroCoordenacaoService membroCoordenacaoService;
+    private final DisciplinaResponsavelService disciplinaResponsavelService;
 
     @Transactional
     public DisciplinaEntity createDisciplina(String nome, Long cargaHoraria) {
@@ -44,7 +42,7 @@ public class DisciplinaService {
     @Transactional
     public void setInstrutorToDisciplina(Long idMembroCoordenacao, Long idDisciplina) {
         DisciplinaEntity disciplina = disciplinaRepository.findById(idDisciplina)
-                .orElseThrow(() -> new RuntimeException("Disciplina não cadastrada"));
+                .orElseThrow(() -> new EntityNotFoundException("Disciplina não cadastrada"));
 
         MembroCoordenacaoEntity membroCoordenacao = membroCoordenacaoService.findById(idMembroCoordenacao);
 

@@ -1,28 +1,22 @@
 package org.fab.sisrecruta.servicies;
 
+import lombok.RequiredArgsConstructor;
 import org.fab.sisrecruta.entities.TurmaEntity;
 import org.fab.sisrecruta.projections.dtos.TurmaDTO;
 import org.fab.sisrecruta.projections.enums.SituacaoTurma;
 import org.fab.sisrecruta.projections.records.TurmaRecord;
 import org.fab.sisrecruta.repositories.TurmaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class TurmaService {
 
     private final TurmaRepository turmaRepository;
     private final RecrutaService recrutaService;
-
-    @Autowired
-    public TurmaService(TurmaRepository turmaRepository, RecrutaService recrutaService) {
-        this.turmaRepository = turmaRepository;
-        this.recrutaService = recrutaService;
-    }
 
     @Transactional
     public TurmaDTO createTurma(TurmaRecord record) {
@@ -38,25 +32,19 @@ public class TurmaService {
     }
 
     @Transactional(readOnly = true)
-    public List<TurmaDTO> getAllTurmas() {
+    public List<TurmaDTO> getAll() {
         List<TurmaEntity> turmas = turmaRepository.findAll();
-        return turmas.stream().map(TurmaDTO::new).collect(Collectors.toList());
+        return turmas.stream().map(t -> {
+         int qtd =  recrutaService.getAmountByIdTurma(t.getIdTurma());
+         TurmaDTO turma = new TurmaDTO(t);
+         turma.setQtdAlocados(qtd);
+         return turma;
+        }).toList();
     }
 
-    @Transactional
-    public TurmaDTO setGritoGuerra(Long idTurma, String txGritoGuerra) {
-        TurmaEntity turmaEntity = turmaRepository.findById(idTurma)
-                .orElseThrow(() -> new RuntimeException("Turma não encontrada!"));
-
-        turmaEntity.setTxGritoGuerra(txGritoGuerra);
-
-        turmaRepository.save(turmaEntity);
-
-        return new TurmaDTO(turmaEntity);
-    }
 
     @Transactional
-    public TurmaDTO fecharTurma(Long idTurma) {
+    public TurmaDTO closeTurma(Long idTurma) {
         TurmaEntity turma = turmaRepository.findById(idTurma)
                 .orElseThrow(() -> new RuntimeException("Turma não encontrada!"));
 

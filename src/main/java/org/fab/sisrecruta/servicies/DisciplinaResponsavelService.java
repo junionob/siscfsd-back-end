@@ -1,20 +1,17 @@
 package org.fab.sisrecruta.servicies;
 
+import lombok.RequiredArgsConstructor;
 import org.fab.sisrecruta.entities.DisciplinaResponsavelEntity;
 import org.fab.sisrecruta.projections.dtos.DisciplinaResponsavelDTO;
-import org.fab.sisrecruta.repositories.DisciplinaRepository;
 import org.fab.sisrecruta.repositories.DisciplinaResponsavelRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class DisciplinaResponsavelService {
 
-    @Autowired
-    private DisciplinaResponsavelRepository disciplinaResponsavelRepository;
-    @Autowired
-    private DisciplinaRepository disciplinaRepository;
+    private final DisciplinaResponsavelRepository disciplinaResponsavelRepository;
 
     @Transactional
     public void atribuirInstrutorToDisciplina(DisciplinaResponsavelDTO dto){

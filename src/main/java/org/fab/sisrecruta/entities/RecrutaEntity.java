@@ -34,15 +34,14 @@ public class RecrutaEntity {
     private Integer nrNumerica;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "ID_PESSOA", referencedColumnName = "ID_PESSOA",  insertable = false, updatable = false)
+    @JoinColumn(name = "ID_PESSOA", referencedColumnName = "ID_PESSOA", insertable = false, updatable = false)
     private PessoaEntity pessoaByIdPessoa;
 
-    @OneToMany(mappedBy = "recruta", cascade = CascadeType.ALL,  orphanRemoval = true)
+    @OneToMany(mappedBy = "recruta", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PunicaoEntity> punicao;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_TURMA", referencedColumnName = "ID_TURMA", insertable = false, updatable = false)
     private TurmaEntity turmaByIdTurma;
-
 
 }

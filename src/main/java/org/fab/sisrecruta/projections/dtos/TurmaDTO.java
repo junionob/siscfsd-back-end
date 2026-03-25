@@ -14,17 +14,17 @@ import java.time.LocalDate;
 @Builder
 @Data
 public class TurmaDTO {
+
     private Long idTurma;
     private String nmTurma;
-    private String txGritoGuerra;
     private LocalDate dtIncorporacao;
     private LocalDate dtFormatura;
     private SituacaoTurma situacaoTurma;
+    private Integer qtdAlocados;
 
     public TurmaDTO(TurmaEntity entity) {
         idTurma = entity.getIdTurma();
         nmTurma = entity.getNmTurma();
-        txGritoGuerra = entity.getTxGritoGuerra();
         dtIncorporacao = entity.getDtIncorporacao();
         dtFormatura = entity.getDtFormatura();
         situacaoTurma = entity.getSituacaoTurma();
