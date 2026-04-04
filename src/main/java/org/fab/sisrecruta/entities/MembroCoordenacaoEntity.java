@@ -17,6 +17,7 @@ public class MembroCoordenacaoEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID_MEMBRO_COORDENACAO")
     private Long id;
 
     @Column(length = 50, nullable = false, name = "NM_GUERRA")

@@ -20,6 +20,12 @@ public class TurmaService {
 
     @Transactional
     public TurmaDTO createTurma(TurmaRecord record) {
+
+        if (record.nome().isBlank() ||
+                record.dtIncorporacao() == null ||
+                record.dtFormatura() == null)
+            throw new IllegalArgumentException();
+
         TurmaEntity turma = TurmaEntity.builder()
                 .nmTurma(record.nome())
                 .dtIncorporacao(record.dtIncorporacao())
@@ -35,13 +41,12 @@ public class TurmaService {
     public List<TurmaDTO> getAll() {
         List<TurmaEntity> turmas = turmaRepository.findAll();
         return turmas.stream().map(t -> {
-         int qtd =  recrutaService.getAmountByIdTurma(t.getIdTurma());
-         TurmaDTO turma = new TurmaDTO(t);
-         turma.setQtdAlocados(qtd);
-         return turma;
+            int qtd = recrutaService.getAmountByIdTurma(t.getIdTurma());
+            TurmaDTO turma = new TurmaDTO(t);
+            turma.setQtdAlocados(Math.max(qtd, 0));
+            return turma;
         }).toList();
     }
-
 
     @Transactional
     public TurmaDTO closeTurma(Long idTurma) {

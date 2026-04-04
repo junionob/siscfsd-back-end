@@ -1,5 +1,6 @@
 package org.fab.sisrecruta.controllers;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.fab.sisrecruta.projections.dtos.TurmaDTO;
 import org.fab.sisrecruta.projections.records.TurmaRecord;
@@ -17,7 +18,7 @@ public class TurmaController {
     private final TurmaService service;
 
     @PostMapping
-    public ResponseEntity<TurmaDTO> create(@RequestBody TurmaRecord record){
+    public ResponseEntity<TurmaDTO> create(@RequestBody  TurmaRecord record){
         return ResponseEntity.ok(service.createTurma(record));
     }
 

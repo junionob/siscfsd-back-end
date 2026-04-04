@@ -1,5 +1,6 @@
 package org.fab.sisrecruta.servicies;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.fab.sisrecruta.entities.MembroCoordenacaoEntity;
 import org.fab.sisrecruta.entities.PunicaoEntity;
@@ -17,6 +18,7 @@ public class PunicaoService {
     private final RecrutaService recrutaService;
     private final MembroCoordenacaoService membroCoordenacaoService;
 
+    @Transactional
     public PunicaoDTO createPunicao(PunicaoRecord record) throws Exception {
         RecrutaEntity recruta = recrutaService.findById(record.idRecuta());
 
@@ -24,10 +26,10 @@ public class PunicaoService {
 
         PunicaoEntity punicao = PunicaoEntity.builder()
                 .recruta(recruta)
-                .membroCoordenacao(membro)
+                .idMembroCoordenacao(membro.getId())
                 .dtHora(record.dtHora())
                 .descricao(record.descricao())
-                .punicao(record.punicao())
+                .idPunicaoAplicada(record.idPunicaoAplicavel())
                 .classificacao(record.classificacao())
                 .build();
 

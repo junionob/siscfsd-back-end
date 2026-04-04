@@ -8,7 +8,6 @@ import lombok.experimental.SuperBuilder;
 import org.fab.sisrecruta.projections.enums.ClassificacaoPunicaoEnum;
 
 import java.time.LocalDate;
-import java.util.Collection;
 
 @Entity
 @Table(name = "T_PUNICAO")
@@ -24,24 +23,35 @@ public class PunicaoEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "ID_RECRUTA", nullable = true)
+    @JoinColumn(name = "ID_RECRUTA")
     private RecrutaEntity recruta;
 
     @Enumerated(EnumType.STRING)
-    @JoinColumn(name = "ID_CLASSIFICACAO")
+    @Column(name = "TP_CLASSIFICACAO")
     private ClassificacaoPunicaoEnum classificacao;
 
-    @Column(name = "TX_BREVE_DESCRICAO", length = 300, nullable = true)
+    @Column(name = "TX_BREVE_DESCRICAO", length = 300)
     private String descricao;
 
-    @Column(name = "TX_PUNICAO", length = 100, nullable = true)
-    private String punicao;
+    @Column(name = "ID_PUNICAO_APLICAVEL")
+    private Long idPunicaoAplicada;
 
     @Column(name = "DT_HORARIO_PUNICAO")
     private LocalDate dtHora;
 
-    @ManyToOne
-    @JoinColumn(name = "ID_MEMBRO_COORDENACAO")
-    private MembroCoordenacaoEntity membroCoordenacao;
+    @Column(name = "ID_MEMBRO_COORDENACAO")
+    private Long idMembroCoordenacao;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_MEMBRO_COORDENACAO", referencedColumnName = "ID_MEMBRO_COORDENACAO", insertable = false, updatable = false)
+    private MembroCoordenacaoEntity membroCoordenacaoByIdMembroCoordenacao;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_PUNICAO_APLICAVEL", referencedColumnName = "ID_PUNICAO_APLICAVEL", insertable = false, updatable = false)
+    private PunicaoAplicavelEntity punicaoAplicavelEntityByIdPunicaoAplicavelEntity;
+
+
+
 
 }

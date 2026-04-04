@@ -31,18 +31,19 @@ public class RecrutaService {
                 .sorted(Comparator
                         .comparing(RecrutaDTO::getNrNumerica, Comparator.nullsLast(Comparator.naturalOrder()))
                         .thenComparing(RecrutaDTO::getNmNome, Comparator.nullsLast(String::compareTo)))
-                        .collect(Collectors.toList());
+                .collect(Collectors.toList());
     }
 
     @Transactional
     public void create(RecrutaDTO dto) {
-        TurmaEntity turma = turmaRepository.findById(dto.getTurmaResume().getId())
-                .orElseThrow(() -> new EntityNotFoundException("Turma não encontrada: " + dto.getTurmaResume().getNome()));
-
+        if (dto.getTurmaResume().getId() == null) throw new IllegalArgumentException("id da turma não pode ser vazio");
         if (dto.getNmNome().isEmpty()) throw new IllegalArgumentException("Nome nao pode ser vazio");
         if (dto.getNmGuerra().isEmpty()) throw new IllegalArgumentException("Nome de Guerra nao pode ser vazio");
         if (dto.getDtNascimento() == null) throw new IllegalArgumentException("Data de Nascimento nao pode ser vazio");
         if (dto.getSexo() == null) throw new IllegalArgumentException("Sexo não pode ser vazio");
+
+        TurmaEntity turma = turmaRepository.findById(dto.getTurmaResume().getId())
+                .orElseThrow(() -> new EntityNotFoundException("Turma não encontrada: " + dto.getTurmaResume().getNome()));
 
         PessoaEntity pessoa = PessoaEntity.builder()
                 .nmNome(dto.getNmNome().toUpperCase())
@@ -84,7 +85,7 @@ public class RecrutaService {
     }
 
     @Transactional(readOnly = true)
-    public Integer getAmountByIdTurma(Long IdTurma){
+    public Integer getAmountByIdTurma(Long IdTurma) {
         return recrutaRepository.findByIdTurma(IdTurma).size();
     }
 }

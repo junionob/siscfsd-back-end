@@ -25,9 +25,9 @@ public class PunicaoDTO {
           id = entity.getId();
           recruta = new RecrutaDTO(entity.getRecruta());
           classificacao = entity.getClassificacao();
-          punicao = entity.getPunicao();
+          punicao = entity.getPunicaoAplicavelEntityByIdPunicaoAplicavelEntity().getTxPunicaoAplicavel();
           descricao = entity.getDescricao();
           dtHora = entity.getDtHora();
-          membroCoordenacao = new MembroCoordenacaoDTO(entity.getMembroCoordenacao());
+          membroCoordenacao = new MembroCoordenacaoDTO(entity.getMembroCoordenacaoByIdMembroCoordenacao());
      }
 }
